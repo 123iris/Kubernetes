@@ -452,3 +452,15 @@ Redirecting to previous state in 3 seconds...
 
 ```
 * **It will take 3 seconds to get back to login page. So, Within this 3 seconds click on create icon. Then you will be able to use Kubernetes Dashboard remotely.**
+
+
+
+### References 
+
+1. [phoenixnap--How-to-install-kubernetes-on-centos ](https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos)
+2. [Edureka--Install-kubernetes-on-ubuntu](https://www.edureka.co/blog/install-kubernetes-on-ubuntu)
+3. [digitalocean--Nginx on centos ](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-centos-7)
+4. [docs.projectcalico.org](https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises)
+5. [raw.githubusercontent.com-kube-flannel.yml](https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml)
+6. [raw.githubusercontent.com-kubernetes-dashboard.yaml](https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml)
+7. [stackoverflow.com](https://stackoverflow.com/questions/39864385/how-to-access-expose-kubernetes-dashboard-service-outside-of-a-cluster)
