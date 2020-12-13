@@ -149,11 +149,21 @@ Use following commands to disable SELinux:
 # How to Deploy a Kubernetes Cluster
 
 #### Step 1: Create Cluster with kubeadm
-* Initialize a cluster by executing the following command:
+
+* Initialize a cluster by executing any one of the following command:
+
+Calico Network, If you want Calico-Pod Network, execute the below command: 
 
 ```
  kubeadm init --apiserver-advertise-address=<ip-address-of-kmaster-vm> --pod-network-cidr=192.168.0.0/16
 ```
+
+Flannel Network, If you want flannel-Pod Network, execute the below command:
+
+```
+kubeadm init --apiserver-advertise-address=<ip-address-of-kmaster-vm> --pod-network-cidr=100.96.0.0/16
+```
+
 * When you run this command this may generate error 
 
 ```
@@ -414,7 +424,18 @@ clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin created
 # copy this below token. It is very important InOrder to login in Kubernetes Dashboard
 eyJhbGciOiJSUzI1NiIsImtpZCI6Ik1hQ3lVdGE4SmViVTIyVmQ0R19FRUpEV3dMZHlkQW5Kd2dIa09nX2doWWcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRhc2hib2FyZC10b2tlbi02MmZoeCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMmM1YzQ3My03M2ZjLTQ0NTEtOTc5NS1iMDA3YmRjYjA3ODgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpkYXNoYm9hcmQifQ.abEKZaUphDEvQhHT02JEVWYxjjfN5ahoEieM0yQHfu2CJ8WGntcTrAy67z_ocO-7o_4_k08hn_yTGP06w_zOTVw3sRdUWKyORu0Bhcab_o1KOFKkjpXBOkCZSCOflJPHTKUDZk944ckpG5JDzFVM6PXqzi3cY0mOCBkda24_4Hf4Z1kdaBYu0Fctmf19bMlHsPkyNsaU2uejhZ04MTVGZFXyulKkMDwPbaUsggkAQ_ysj1-B1qcQ0ma6qyypgv2ePczsAXKv9kiRbEI3lxP2SRzSgxUwTAiVLDhZyp4Zn6vHHjNTGL6RhPdwBPIynBG5Vs6OiEwLl_k94DYHmeGHyA
 ```
+* InOrder to Access Kubernetes Dashboard on local machine, run the following command:
 
+```
+[mosipuser@k8Master1 ~]$ kubectl proxy
+Starting to serve on 127.0.0.1:8001
+
+```
+Open browser and type:
+
+```
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+```
 
 * InOrder to Access Kubernetes Dashboard copy port number from below command. [i.e port 30536]
 
