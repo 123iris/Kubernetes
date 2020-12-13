@@ -1,8 +1,8 @@
 # Steps to Install Kubernetes on Centos VM
 
 * To use Kubernetes, you need to install a containerization engine. <br>
-* Currently, the most popular container solution is Docker. <br>
-* Docker needs to be installed on CentOS, both on the Master Node and the Worker Nodes.
+* Currently, the most popular container solution is Docker. 
+* Docker needs to be installed on CentOS, both on the Master Node and the Worker Nodes. [Docker install](https://github.com/123iris/Docker/blob/master/Docker%20install%20on%20centos.md)
 
 #### Step 1: Configure Kubernetes Repository
 
@@ -476,8 +476,48 @@ Redirecting to previous state in 3 seconds...
 * **It will take 3 seconds to get back to login page. So, Within this 3 seconds click on create icon. Then you will be able to use Kubernetes Dashboard remotely.**
 
 
+# Reset Kubernetes Cluster
 
-### References 
+If you want to reset Kubernetes Cluster on some particular nodes. Execute this command 
+
+```
+kubeadm reset
+```
+
+# Join the Cluster 
+
+* If you want to join a particular Kubernetes cluster. Get the kubeadm join command from master node
+
+* **Make sure you are root user or have sudo access**.
+
+Example :
+
+```
+[mosipuser@k8Worker0 ~]$ sudo kubeadm join 192.168.122.67:6443 --token dpms5h.8b4dxwl9mdjc4veb \
+     --discovery-token-ca-cert-hash sha256:59a9c5cae741b57f4d16b07a6d381a7512118af8ba7401e377d06c6f8db50c3f
+```
+
+# Check Kubernetes nodes
+
+* Execute the below command to get to know how machine nodes are available on KUbernetes cluster.
+* If Roles are none, it means it is a worker node.
+* It will take time for machines to get 'Ready' STATUS. So please wait for sometime !!!
+
+```
+[mosipuser@k8Master1 ~]$ kubectl get nodes
+NAME        STATUS   ROLES                  AGE   VERSION
+k8master1   Ready    control-plane,master   21h   v1.20.0
+k8worker0   Ready    <none>                 16m   v1.20.0
+```
+
+If you Execute this command on Worker Node, It will through error
+
+```
+[mosipuser@k8Worker0 ~]$ kubectl get nodes
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+```
+
+# References 
 
 1. [phoenixnap--How-to-install-kubernetes-on-centos ](https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos)
 2. [Edureka--Install-kubernetes-on-ubuntu](https://www.edureka.co/blog/install-kubernetes-on-ubuntu)
