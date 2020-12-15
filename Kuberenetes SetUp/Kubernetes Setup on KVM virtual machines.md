@@ -2,9 +2,9 @@
 
 * To use Kubernetes, you need to install a containerization engine. <br>
 * Currently, the most popular container solution is Docker. 
-* Docker needs to be installed on CentOS, both on the Master Node and the Worker Nodes. [Docker install](https://github.com/123iris/Docker/blob/master/Docker%20install%20on%20centos.md)
+* Docker needs to be installed on CentOS, both on the Master Node and the Worker Nodes. [Docker install](https://github.com/123iris/Docker/blob/master/Docker%20SetUp/Docker%20install%20on%20centos.md)
 
-#### Step 1: Configure Kubernetes Repository
+### Step 1: Configure Kubernetes Repository
 
 * The steps are followed from [here](https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos)
 * Kubernetes packages are not available from official CentOS 7 repositories.
@@ -27,7 +27,7 @@ EOF
 [root@k8Master1 mosipuser]# yum list all
 ```
 
-#### Step 2: Install kubelet, kubeadm, and kubectl
+### Step 2: Install kubelet, kubeadm, and kubectl
 
 * These 3 basic packages are required to be able to use Kubernetes. Install the following package(s) on each node:
 
@@ -49,7 +49,7 @@ Complete!
 ```
 [mosipuser@k8Master1 ~]$ sudo systemctl start kubelet
 ```
-#### Step 3: Set Hostname on Nodes
+### Step 3: Set Hostname on Nodes
 
 * This is not Required. It will your wish to follow this Step.
 * To give a unique hostname to each of your nodes, use this command:
@@ -76,7 +76,7 @@ With the entry:
 192.168.1.10 master.phoenixnap.com master-node
 192.168.1.20 node1. phoenixnap.com node1 worker-node
 ```
-#### Step 4: Configure Firewall
+### Step 4: Configure Firewall
 
 * The nodes, containers, and pods need to be able to communicate across the cluster to perform their functions.<br> Firewalld is enabled in CentOS by default on the front-end. Add the following ports by entering the listed commands.
 
@@ -109,7 +109,8 @@ success
 [mosipuser@k8Worker0 ~]$ firewall-cmd --reload
 success
 ```
-#### Step 5: Update Iptables Settings
+
+### Step 5: Update Iptables Settings
 
 * Set the net.bridge.bridge-nf-call-iptables to ‘1’ in your sysctl config file. This ensures that packets are properly processed by IP tables during filtering and port forwarding.
 
@@ -124,7 +125,7 @@ EOF
 [root@k8Master1 mosipuser]# sysctl --system
 ```
 
-#### Step 6: Disable SELinux
+### Step 6: Disable SELinux
 
 * The containers need to access the host filesystem. SELinux needs to be set to permissive mode, which effectively disables its security functions.
 
@@ -136,7 +137,7 @@ Use following commands to disable SELinux:
 
 ```
 
-#### Step 7: Disable SWAP
+### Step 7: Disable SWAP
 
 * Lastly, we need to disable SWAP to enable the kubelet to work properly:
 
@@ -148,7 +149,7 @@ Use following commands to disable SELinux:
 
 # How to Deploy a Kubernetes Cluster
 
-#### Step 1: Create Cluster with kubeadm
+### Step 1: Create Cluster with kubeadm
 
 * Initialize a cluster by executing any one of the following command:
 
@@ -227,7 +228,7 @@ kubeadm join 192.168.122.67:6443 --token dpms5h.8b4dxwl9mdjc4veb \
     --discovery-token-ca-cert-hash sha256:59a9c5cae741b57f4d16b07a6d381a7512118af8ba7401e377d06c6f8db50c3f
 ```
 
-#### Step 2: Manage Cluster as Regular User
+### Step 2: Manage Cluster as Regular User
 
 * To start using the cluster you need to run it as a regular user by typing:
 
@@ -252,7 +253,7 @@ kube-system   kube-scheduler-k8master1            1/1     Running   0          6
 It may take time to start Running, wait for it.
 
 
-#### Step 3: Set Up Pod Network
+### Step 3: Set Up Pod Network
 
 * There are two types of Pod Network 
 
@@ -289,7 +290,7 @@ You can get this file from this github repository.
 * Download Calico.yaml file from this github repository and run the following command
 
 ```
-[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/calico.yaml 
+[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/calico.yaml 
 
 ```
 
@@ -326,10 +327,10 @@ You can get this file from this github repository.
 * Download kube-flannel.yaml file from this github repository and run the following command
 
 ```
-[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/kube-flannel.yml 
+[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kube-flannel.yml 
 ```
 
-#### Step 4: Install Kubernetes Dashboard
+### Step 4: Install Kubernetes Dashboard
 
 * To install Kubernetes Dashboard, Install nginx on VM machine. [link](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-centos-7)
 
@@ -359,7 +360,7 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1
 If there is an Error to Open the Above link, you can get the kubernetes-dashboard.yaml file from your Git-Repository 
 
 ```
-kubectl create -f https://github.com/123iris/Kubernetes/kubernetes-dashboard.yaml
+kubectl create -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kubernetes-dashboard.yaml
 ```
 
 * To check whether Your dashboard is now ready with it’s the pod in the running state. 
@@ -455,7 +456,7 @@ kube-dns               ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9
 kubernetes-dashboard   NodePort    10.102.90.180   <none>        443:30536/TCP            129m
 ```
 
-*  Open Browser, And type the https://<VM IP ADDRESS>:30536/ 
+*  Open Browser, And type the https:// <VM IP ADDRESS> : 30536 / 
    Select Token Option
    
 
