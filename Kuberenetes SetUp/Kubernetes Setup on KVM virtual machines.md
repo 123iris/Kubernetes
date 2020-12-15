@@ -179,7 +179,9 @@ To see the stack trace of this error execute with --v=5 or higher
 
 * Because, you must be 'root user' or must have sudo access and machine must have 2GB RAM and minimum 2 vcpu's
 
+
 * So, to do that, On host machine, Follow these steps:
+ 
  
 Edit each VM and make it to 2GB RAM and minimum 2 vcpu's :
 
@@ -382,9 +384,10 @@ kube-system   kubernetes-dashboard-6ff6454fdc-xw4n5      1/1     Running   0    
 ```
 [mosipuser@k8Master1 ~]$ kubectl -n kube-system edit service kubernetes-dashboard
 ```
-change the .spec.type to NodePort
+change the spec.type ClusterIP to NodePort
 
 ```
+
 spec:
   clusterIP: 10.102.90.180
   clusterIPs:
@@ -398,21 +401,25 @@ spec:
   selector:
     k8s-app: kubernetes-dashboard
   sessionAffinity: None
-  type: NodePort
+  type: NodePort   ## here change ClusterIP to NodePort
+  
 ```
 
 * To check whether Kubernetes Dashboard service is available use the below command. 
 
 ```
+
 [mosipuser@k8Master1 ~]$ kubectl get services -n kube-system
 NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE
 kube-dns               ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   178m
 kubernetes-dashboard   NodePort    10.102.90.180   <none>        443:30536/TCP            129m
+
 ```
 
 * Now, Create a Dashboard service account using the following commands:
 
 ```
+
 [mosipuser@k8Master1 ~]$ kubectl create serviceaccount dashboard -n default
 serviceaccount/dashboard created
 
@@ -423,8 +430,10 @@ clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin created
 
 # copy this below token. It is very important InOrder to login in Kubernetes Dashboard
 eyJhbGciOiJSUzI1NiIsImtpZCI6Ik1hQ3lVdGE4SmViVTIyVmQ0R19FRUpEV3dMZHlkQW5Kd2dIa09nX2doWWcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRhc2hib2FyZC10b2tlbi02MmZoeCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMmM1YzQ3My03M2ZjLTQ0NTEtOTc5NS1iMDA3YmRjYjA3ODgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpkYXNoYm9hcmQifQ.abEKZaUphDEvQhHT02JEVWYxjjfN5ahoEieM0yQHfu2CJ8WGntcTrAy67z_ocO-7o_4_k08hn_yTGP06w_zOTVw3sRdUWKyORu0Bhcab_o1KOFKkjpXBOkCZSCOflJPHTKUDZk944ckpG5JDzFVM6PXqzi3cY0mOCBkda24_4Hf4Z1kdaBYu0Fctmf19bMlHsPkyNsaU2uejhZ04MTVGZFXyulKkMDwPbaUsggkAQ_ysj1-B1qcQ0ma6qyypgv2ePczsAXKv9kiRbEI3lxP2SRzSgxUwTAiVLDhZyp4Zn6vHHjNTGL6RhPdwBPIynBG5Vs6OiEwLl_k94DYHmeGHyA
+
 ```
-* InOrder to Access Kubernetes Dashboard on local machine, run the following command:
+
+* InOrder to Access Kubernetes Dashboard on local machine ( i.e. On master machine ), run the following command:
 
 ```
 [mosipuser@k8Master1 ~]$ kubectl proxy
@@ -455,16 +464,23 @@ https://<IP ADDRESS of VM>:<NodePort>
 ```
 
 ```
-https://192.168.122.67:30536/#!/login
+https://192.168.122.67:30536/
 ```
+
+**Note : when open this "https://192.168.122.67:30536/" you may get warning. Don't be afraid.**
+
+**Click on Advance option ---> Click on Proceed with https://192.168.122.67:30536/**
 
 * Copy the output from the below command and paste it in browser and click on sign-In:
 
 ```
+
 [mosipuser@k8Master1 ~]$ kubectl get secret $(kubectl get serviceaccount dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
 
 eyJhbGciOiJSUzI1NiIsImtpZCI6Ik1hQ3lVdGE4SmViVTIyVmQ0R19FRUpEV3dMZHlkQW5Kd2dIa09nX2doWWcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRhc2hib2FyZC10b2tlbi02MmZoeCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMmM1YzQ3My03M2ZjLTQ0NTEtOTc5NS1iMDA3YmRjYjA3ODgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpkYXNoYm9hcmQifQ.abEKZaUphDEvQhHT02JEVWYxjjfN5ahoEieM0yQHfu2CJ8WGntcTrAy67z_ocO-7o_4_k08hn_yTGP06w_zOTVw3sRdUWKyORu0Bhcab_o1KOFKkjpXBOkCZSCOflJPHTKUDZk944ckpG5JDzFVM6PXqzi3cY0mOCBkda24_4Hf4Z1kdaBYu0Fctmf19bMlHsPkyNsaU2uejhZ04MTVGZFXyulKkMDwPbaUsggkAQ_ysj1-B1qcQ0ma6qyypgv2ePczsAXKv9kiRbEI3lxP2SRzSgxUwTAiVLDhZyp4Zn6vHHjNTGL6RhPdwBPIynBG5Vs6OiEwLl_k94DYHmeGHyA
+
 ```
+
 * When you try to sign-In. It will display Unknown server 404 ERROR 
 
 ```
@@ -492,6 +508,8 @@ kubeadm reset
 
 Example :
 
+On Worker Node,
+
 ```
 [mosipuser@k8Worker0 ~]$ sudo kubeadm join 192.168.122.67:6443 --token dpms5h.8b4dxwl9mdjc4veb \
      --discovery-token-ca-cert-hash sha256:59a9c5cae741b57f4d16b07a6d381a7512118af8ba7401e377d06c6f8db50c3f
@@ -499,9 +517,11 @@ Example :
 
 # Check Kubernetes nodes
 
-* Execute the below command to get to know how machine nodes are available on KUbernetes cluster.
+* Execute the below command to get to know how machine nodes are available on Kubernetes cluster.
 * If Roles are none, it means it is a worker node.
 * It will take time for machines to get 'Ready' STATUS. So please wait for sometime !!!
+
+On Master Node,
 
 ```
 [mosipuser@k8Master1 ~]$ kubectl get nodes
@@ -511,6 +531,8 @@ k8worker0   Ready    <none>                 16m   v1.20.0
 ```
 
 If you Execute this command on Worker Node, It will through error
+
+On Worker Node,
 
 ```
 [mosipuser@k8Worker0 ~]$ kubectl get nodes
