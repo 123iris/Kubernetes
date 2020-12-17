@@ -566,8 +566,8 @@ On Master Node, After Opening port 179 .Check Again calico pod services it will 
 [mosipuser@k8Master1 ~]$ kubectl get pods -o wide --all-namespaces
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE    IP               NODE        NOMINATED NODE   READINESS GATES
 kube-system   calico-kube-controllers-744cfdf676-9vm57   1/1     Running   0          136m   192.168.145.1    k8master1   <none>           <none>
-kube-system   calico-node-p2dks                          0/1     Running   0          136m   192.168.122.67   k8master1   <none>           <none>
-kube-system   calico-node-dftse                          0/1     Running   0          136m   192.168.122.4   k8master1   <none>           <none>
+kube-system   calico-node-p2dks                          1/1     Running   0          136m   192.168.122.67   k8master1   <none>           <none>
+kube-system   calico-node-dftse                          1/1     Running   0          136m   192.168.122.4   k8master1   <none>           <none>
 kube-system   coredns-74ff55c5b-7s86p                    1/1     Running   0          139m   192.168.145.2    k8master1   <none>           <none>
 kube-system   coredns-74ff55c5b-fz9h8                    1/1     Running   0          139m   192.168.145.3    k8master1   <none>           <none>
 kube-system   etcd-k8master1                             1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
