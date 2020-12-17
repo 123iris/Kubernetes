@@ -290,7 +290,11 @@ You can get this file from this github repository.
 * Download Calico.yaml file from this github repository and run the following command
 
 ```
-[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/calico.yaml 
+https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/calico.yaml 
+
+Download the calico.yaml and Run on master node 
+
+[mosipuser@k8Master1 ~]$ kubectl apply -f calico.yaml 
 
 ```
 
@@ -327,7 +331,11 @@ You can get this file from this github repository.
 * Download kube-flannel.yaml file from this github repository and run the following command
 
 ```
-[mosipuser@k8Master1 ~]$ kubectl apply -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kube-flannel.yml 
+https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kube-flannel.yml 
+
+Download kube-flannel.yml file from above github account and run below command
+
+[mosipuser@k8Master1 ~]$ kubectl apply -f kube-flannel.yml
 ```
 
 ### Step 4: Install Kubernetes Dashboard
@@ -360,7 +368,10 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1
 If there is an Error to Open the Above link, you can get the kubernetes-dashboard.yaml file from your Git-Repository 
 
 ```
-kubectl create -f https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kubernetes-dashboard.yaml
+https://github.com/123iris/Kubernetes/tree/master/Kuberenetes%20SetUp/kubernetes-dashboard.yaml
+
+[mosipuser@k8Master1 ~]$ kubectl create -f kubernetes-dashboard.yaml
+
 ```
 
 * To check whether Your dashboard is now ready with it’s the pod in the running state. 
@@ -509,7 +520,7 @@ kubeadm reset
 
 Example :
 
-On Worker Node,
+On Each Worker Node,
 
 ```
 [mosipuser@k8Worker0 ~]$ sudo kubeadm join 192.168.122.67:6443 --token dpms5h.8b4dxwl9mdjc4veb \
@@ -540,7 +551,7 @@ You may have noticed that calico pod service is running but not ready.
 
 * InOrder to avoid this, open Port 179 on each worker node
 
-On worker node
+On Each worker node
 
 ```
 [mosipuser@k8Master1 ~]$ sudo firewall-cmd --permanent --add-port=179/tcp
