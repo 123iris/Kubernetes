@@ -516,6 +516,58 @@ On Worker Node,
      --discovery-token-ca-cert-hash sha256:59a9c5cae741b57f4d16b07a6d381a7512118af8ba7401e377d06c6f8db50c3f
 ```
 
+* After joining to Kubernetes Cluster,if you check calico pod service. 
+
+On Master Node,
+
+```
+[mosipuser@k8Master1 ~]$ kubectl get pods -o wide --all-namespaces
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE    IP               NODE        NOMINATED NODE   READINESS GATES
+kube-system   calico-kube-controllers-744cfdf676-9vm57   1/1     Running   0          136m   192.168.145.1    k8master1   <none>           <none>
+kube-system   calico-node-p2dks                          0/1     Running   0          136m   192.168.122.67   k8master1   <none>           <none>
+kube-system   calico-node-dftse                          0/1     Running   0          136m   192.168.122.4   k8master1   <none>           <none>
+kube-system   coredns-74ff55c5b-7s86p                    1/1     Running   0          139m   192.168.145.2    k8master1   <none>           <none>
+kube-system   coredns-74ff55c5b-fz9h8                    1/1     Running   0          139m   192.168.145.3    k8master1   <none>           <none>
+kube-system   etcd-k8master1                             1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-apiserver-k8master1                   1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-controller-manager-k8master1          1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-proxy-8dm4r                           1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-scheduler-k8master1                   1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kubernetes-dashboard-6ff6454fdc-xw4n5      1/1     Running   0          90m    192.168.145.4    k8master1   <none>           <none>
+```
+
+You may have noticed that calico pod service is running but not ready. 
+
+* InOrder to avoid this, open Port 179 on each worker node
+
+On worker node
+
+```
+[mosipuser@k8Master1 ~]$ sudo firewall-cmd --permanent --add-port=179/tcp
+success
+[mosipuser@k8Master1 ~]$ sudo firewall-cmd --reload
+success
+```
+
+On Master Node, After Opening port 179 .Check Again calico pod services it will be in ready state
+
+```
+[mosipuser@k8Master1 ~]$ kubectl get pods -o wide --all-namespaces
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE    IP               NODE        NOMINATED NODE   READINESS GATES
+kube-system   calico-kube-controllers-744cfdf676-9vm57   1/1     Running   0          136m   192.168.145.1    k8master1   <none>           <none>
+kube-system   calico-node-p2dks                          0/1     Running   0          136m   192.168.122.67   k8master1   <none>           <none>
+kube-system   calico-node-dftse                          0/1     Running   0          136m   192.168.122.4   k8master1   <none>           <none>
+kube-system   coredns-74ff55c5b-7s86p                    1/1     Running   0          139m   192.168.145.2    k8master1   <none>           <none>
+kube-system   coredns-74ff55c5b-fz9h8                    1/1     Running   0          139m   192.168.145.3    k8master1   <none>           <none>
+kube-system   etcd-k8master1                             1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-apiserver-k8master1                   1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-controller-manager-k8master1          1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-proxy-8dm4r                           1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kube-scheduler-k8master1                   1/1     Running   0          139m   192.168.122.67   k8master1   <none>           <none>
+kube-system   kubernetes-dashboard-6ff6454fdc-xw4n5      1/1     Running   0          90m    192.168.145.4    k8master1   <none>           <none>
+```
+
+
 # Check Kubernetes nodes
 
 * Execute the below command to get to know how machine nodes are available on Kubernetes cluster.
