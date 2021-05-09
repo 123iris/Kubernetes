@@ -2,6 +2,10 @@
 
 * To use Kubernetes, you need to install a containerization engine. <br>
 * Currently, the most popular container solution is Docker. 
+
+
+## Step 0: Install Docker
+
 * Docker needs to be installed on CentOS, both on the Master Node and the Worker Nodes. [Docker install](https://github.com/123iris/Docker/blob/master/Docker%20SetUp/Docker%20install%20on%20centos.md)
 
 ### Step 1: Configure Kubernetes Repository
